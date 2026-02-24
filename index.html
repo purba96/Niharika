@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Niharika ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&family=Pacifico&display=swap" rel="stylesheet">
+
+<style>
+body{
+    margin:0;
+    font-family:'Poppins',sans-serif;
+    background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+    color:#fff;
+    text-align:center;
+}
+
+section{ padding:60px 20px; }
+
+h1{ font-family:'Pacifico',cursive; font-size:40px; }
+
+.card{
+    background:rgba(255,255,255,0.15);
+    backdrop-filter:blur(10px);
+    border-radius:20px;
+    padding:25px;
+    margin:20px auto;
+    max-width:420px;
+}
+
+button{
+    background:#fff;
+    color:#ff6b81;
+    border:none;
+    padding:12px 22px;
+    border-radius:30px;
+    font-size:16px;
+    margin:10px;
+    cursor:pointer;
+}
+
+#no{ position:absolute; }
+
+.hidden{ display:none; }
+
+/* STORY MODE */
+#story{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:black;
+    display:none;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    z-index:999;
+}
+
+#story img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    position:absolute;
+    top:0;
+    left:0;
+    opacity:0;
+    animation:fadeIn 2s forwards;
+}
+
+@keyframes fadeIn{
+    to{ opacity:1; }
+}
+
+#storyText{
+    position:absolute;
+    bottom:80px;
+    left:20px;
+    right:20px;
+    font-size:28px;
+    font-weight:500;
+    text-shadow:0 0 10px rgba(0,0,0,0.8);
+    opacity:0;
+    animation:fadeInText 2s 1.5s forwards;
+}
+
+@keyframes fadeInText{
+    to{ opacity:1; }
+}
+
+canvas{
+    position:fixed;
+    top:0;
+    left:0;
+    pointer-events:none;
+}
+</style>
+</head>
+
+<body>
+
+<section>
+    <h1>Hi Niharika ❤️</h1>
+    <p>This little website is made just for you.</p>
+</section>
+
+<section class="card">
+    <h2>Click for a Surprise 🎁</h2>
+    <button onclick="showTrip()">Tap Here</button>
+</section>
+
+<section class="card hidden" id="tripBox">
+    <h2>I’m planning to go to Andaman 🌴</h2>
+    <p>Are you going with me? ❤️</p>
+
+    <button onclick="yesClicked()">Yes 😍</button>
+    <button id="no">No 😜</button>
+</section>
+
+<!-- STORY SCREEN -->
+<div id="story">
+    <img src="ANDAMAN.jpg">
+    <div id="storyText">
+        Our next memory begins here… 🌴✨<br>
+        You + Me + Andaman ❤️
+    </div>
+</div>
+
+<audio id="music" src="YOUR_MUSIC.mp3"></audio>
+<canvas id="confetti"></canvas>
+
+<script>
+function showTrip(){
+    document.getElementById("tripBox").classList.remove("hidden");
+}
+
+// YES → story reveal
+function yesClicked(){
+    document.getElementById("story").style.display="flex";
+    document.getElementById("music").play();
+    startConfetti();
+}
+
+// runaway NO button
+const noBtn=document.getElementById("no");
+noBtn.addEventListener("mouseover",move);
+noBtn.addEventListener("touchstart",move);
+function move(){
+    const x=Math.random()*(window.innerWidth-100);
+    const y=Math.random()*(window.innerHeight-50);
+    noBtn.style.left=x+"px";
+    noBtn.style.top=y+"px";
+}
+
+// confetti
+function startConfetti(){
+    const canvas=document.getElementById("confetti");
+    const ctx=canvas.getContext("2d");
+    canvas.width=window.innerWidth;
+    canvas.height=window.innerHeight;
+    let pieces=[];
+    for(let i=0;i<120;i++){
+        pieces.push({
+            x:Math.random()*canvas.width,
+            y:Math.random()*canvas.height,
+            r:Math.random()*6+2,
+            d:Math.random()*5+2
+        });
+    }
+    function draw(){
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        ctx.fillStyle="white";
+        pieces.forEach(p=>{
+            ctx.beginPath();
+            ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+            ctx.fill();
+        });
+        pieces.forEach(p=>{
+            p.y+=p.d;
+            if(p.y>canvas.height) p.y=0;
+        });
+    }
+    setInterval(draw,20);
+}
+</script>
+
+</body>
+</html>
